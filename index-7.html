@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Usha Présences">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#5b2d7e">
+<title>Usha Yoga · Présences 2026–27</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVXNoYSBZb2dhIMK7IFByw6lzZW5jZXMiLCJzaG9ydF9uYW1lIjoiVXNoYSIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMWEwYTI4IiwidGhlbWVfY29sb3IiOiIjNWIyZDdlIn0=">
+<style>
+:root {
+  --prune:#5b2d7e; --prune-light:#7a3fa8; --prune-deeper:#1a0a28;
+  --lavande:#c4a8e8; --lavande-light:#e8d8f8;
+  --gold:#d4a843; --gold-light:#f0cc7a;
+  --blanc:#f5f0fa; --absent:#c0392b; --present:#27ae60;
+  --remplacant:#e67e22; --surface:rgba(91,45,126,0.18); --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--prune-deeper);background-image:radial-gradient(ellipse 80% 60% at 20% 10%,rgba(91,45,126,0.55) 0%,transparent 70%),radial-gradient(ellipse 60% 80% at 80% 90%,rgba(122,63,168,0.35) 0%,transparent 70%);color:var(--blanc);font-family:Georgia,serif;min-height:100dvh;max-width:520px;margin:0 auto;padding-bottom:72px}
+header{padding:14px 16px 10px;text-align:center;border-bottom:1px solid rgba(196,168,232,0.2);background:rgba(26,10,40,0.7);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
+.logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:3px}
+h1{font-size:19px;font-weight:normal;letter-spacing:2px;color:var(--lavande-light);font-style:italic}
+.subtitle{font-size:10px;color:var(--lavande);letter-spacing:3px;text-transform:uppercase;font-family:'Helvetica Neue',sans-serif}
+.nav-cours{display:flex;overflow-x:auto;gap:0;background:rgba(26,10,40,0.6);border-bottom:1px solid rgba(196,168,232,0.15);scrollbar-width:none}
+.nav-cours::-webkit-scrollbar{display:none}
+.btn-cours{flex-shrink:0;padding:9px 12px;color:rgba(196,168,232,0.6);cursor:pointer;font-size:11px;text-align:center;border-bottom:3px solid transparent;border-right:1px solid rgba(196,168,232,0.1);transition:all 0.2s;white-space:nowrap;font-family:'Helvetica Neue',sans-serif;background:none;border-top:none;border-left:none}
+.btn-cours.active{color:#fff;border-bottom:3px solid var(--gold);background:rgba(91,45,126,0.25)}
+.btn-cours .c-lieu{font-size:12px;font-weight:bold;display:block}
+.btn-cours .c-heure{font-size:10px;opacity:0.85;display:block}
+.seance-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(91,45,126,0.2);border-bottom:1px solid rgba(196,168,232,0.12)}
+.seance-bar select{flex:1;background:rgba(26,10,40,0.6);border:1px solid rgba(196,168,232,0.3);border-radius:8px;color:var(--blanc);padding:6px 10px;font-size:13px;font-family:'Helvetica Neue',sans-serif;color-scheme:dark;cursor:pointer}
+.btn-nav{background:var(--prune-light);color:#fff;border:none;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:14px;flex-shrink:0}
+.btn-nav:disabled{opacity:0.25;cursor:default}
+.stats-bar{display:flex;gap:8px;padding:10px 16px;flex-wrap:wrap;border-bottom:1px solid rgba(196,168,232,0.12)}
+.stat-pill{background:rgba(91,45,126,0.25);border:1px solid rgba(196,168,232,0.2);border-radius:20px;padding:4px 12px;font-family:'Helvetica Neue',sans-serif;font-size:12px;text-align:center;min-width:64px}
+.stat-pill .sv{display:block;font-size:16px;font-weight:bold;line-height:1.2}
+.stat-pill .sl{display:block;font-size:9px;opacity:0.7;text-transform:uppercase;letter-spacing:1px}
+.sp-p .sv{color:var(--present)}.sp-a .sv{color:var(--absent)}.sp-t .sv{color:var(--gold-light)}.sp-r .sv{color:var(--remplacant)}
+.eleves-section{padding:12px 16px 0}
+.section-label{font-size:10px;color:var(--lavande);text-transform:uppercase;letter-spacing:2px;font-family:'Helvetica Neue',sans-serif;margin-bottom:10px;padding-left:4px;display:flex;justify-content:space-between;align-items:center}
+.btn-edit-mode{background:rgba(91,45,126,0.3);border:1px solid rgba(196,168,232,0.3);color:var(--lavande);border-radius:6px;padding:3px 10px;font-size:11px;font-family:'Helvetica Neue',sans-serif;cursor:pointer}
+.btn-edit-mode.active{background:var(--gold);border-color:var(--gold-light);color:#1a0a28}
+.eleve-card{background:var(--surface);border:1px solid rgba(196,168,232,0.15);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px;transition:all 0.2s}
+.eleve-card.absent-card{background:rgba(192,57,43,0.12);border-color:rgba(192,57,43,0.25)}
+.eleve-card.libre-card{opacity:0.45}
+.eleve-row{display:flex;align-items:center;gap:10px}
+.toggle-presence{width:32px;height:32px;border-radius:50%;border:2px solid var(--present);background:rgba(39,174,96,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;-webkit-user-select:none;user-select:none}
+.toggle-presence.absent{border-color:var(--absent);background:rgba(192,57,43,0.2)}
+.toggle-presence.libre{border-color:rgba(196,168,232,0.2);background:transparent;cursor:default}
+.eleve-num{font-size:11px;color:var(--lavande);font-family:'Helvetica Neue',sans-serif;min-width:18px;text-align:center;opacity:0.7}
+.eleve-nom{flex:1;font-size:15px;color:var(--blanc);font-family:'Helvetica Neue',sans-serif}
+.eleve-nom.placeholder{color:rgba(196,168,232,0.3);font-style:italic;font-size:13px}
+.nom-edit-input{flex:1;background:rgba(91,45,126,0.35);border:1px solid var(--lavande);border-radius:8px;color:var(--blanc);padding:5px 10px;font-size:14px;font-family:'Helvetica Neue',sans-serif;outline:none}
+.remplacant-row{margin-top:8px;padding-top:7px;border-top:1px dashed rgba(196,168,232,0.2);display:flex;align-items:center;gap:8px}
+.remplacant-label{font-size:10px;color:var(--remplacant);font-family:'Helvetica Neue',sans-serif;white-space:nowrap;text-transform:uppercase;letter-spacing:1px}
+.remplacant-input{flex:1;background:rgba(230,126,34,0.1);border:1px solid rgba(230,126,34,0.3);border-radius:6px;color:var(--gold-light);padding:4px 8px;font-size:12px;font-family:'Helvetica Neue',sans-serif;outline:none}
+.remplacant-input::placeholder{color:rgba(230,126,34,0.35)}
+.remplacant-input:focus{border-color:var(--remplacant)}
+.attente-section{padding:12px 16px}
+.attente-label{font-size:10px;color:var(--lavande);text-transform:uppercase;letter-spacing:2px;font-family:'Helvetica Neue',sans-serif;margin-bottom:8px}
+.attente-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.attente-item{display:flex;align-items:center;gap:6px}
+.attente-num{font-size:11px;color:var(--lavande);font-family:'Helvetica Neue',sans-serif;min-width:16px;opacity:0.7}
+.attente-input{flex:1;background:var(--surface);border:1px solid rgba(196,168,232,0.2);border-radius:8px;color:var(--blanc);padding:6px 10px;font-size:13px;font-family:'Helvetica Neue',sans-serif;outline:none}
+.attente-input::placeholder{color:rgba(196,168,232,0.25);font-style:italic}
+.notes-section{padding:0 16px 12px}
+.notes-label{font-size:10px;color:var(--lavande);text-transform:uppercase;letter-spacing:2px;font-family:'Helvetica Neue',sans-serif;margin-bottom:8px}
+.notes-input{width:100%;background:var(--surface);border:1px solid rgba(196,168,232,0.2);border-radius:var(--radius);color:var(--blanc);padding:10px 12px;font-family:Georgia,serif;font-size:13px;resize:vertical;min-height:60px;outline:none}
+.notes-input::placeholder{color:rgba(196,168,232,0.3);font-style:italic}
+.recap-section{padding:0 16px 12px}
+.recap-title{font-size:10px;color:var(--lavande);text-transform:uppercase;letter-spacing:2px;font-family:'Helvetica Neue',sans-serif;margin-bottom:8px}
+.recap-table{width:100%;border-collapse:collapse;font-family:'Helvetica Neue',sans-serif;font-size:12px}
+.recap-table th{background:rgba(91,45,126,0.4);color:var(--lavande);padding:6px 8px;text-align:left;font-weight:normal;text-transform:uppercase;letter-spacing:1px;font-size:10px}
+.recap-table td{padding:5px 8px;border-bottom:1px solid rgba(196,168,232,0.08);color:var(--blanc)}
+.recap-table tr.cur td{background:rgba(91,45,126,0.25)}
+.r-p{color:var(--present);font-weight:bold}.r-a{color:var(--absent)}.r-t{color:var(--gold-light)}
+.bottom-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:rgba(26,10,40,0.92);backdrop-filter:blur(12px);border-top:1px solid rgba(196,168,232,0.2);padding:8px 16px 14px;display:flex;justify-content:space-between;align-items:center;z-index:200}
+.brand-bottom{font-size:10px;color:rgba(196,168,232,0.4);font-family:'Helvetica Neue',sans-serif}
+.btn-reset{background:none;border:1px solid rgba(192,57,43,0.35);color:rgba(192,57,43,0.6);border-radius:7px;padding:5px 10px;font-size:11px;font-family:'Helvetica Neue',sans-serif;cursor:pointer}
+.btn-export{background:rgba(212,168,67,0.2);border:1px solid rgba(212,168,67,0.35);color:var(--gold-light);border-radius:7px;padding:5px 10px;font-size:11px;font-family:'Helvetica Neue',sans-serif;cursor:pointer}
+.toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--prune-light);color:#fff;padding:9px 18px;border-radius:20px;font-family:'Helvetica Neue',sans-serif;font-size:13px;opacity:0;transition:all 0.3s;z-index:999;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-row"><span>🧘</span><h1>Usha Yoga</h1><span>✨</span></div>
+  <div class="subtitle">Présences · 2026–2027</div>
+</header>
+
+<nav class="nav-cours" id="nav-cours"></nav>
+<div class="seance-bar">
+  <button class="btn-nav" id="btn-prev">◀</button>
+  <select id="seance-select"></select>
+  <button class="btn-nav" id="btn-next">▶</button>
+</div>
+<div class="stats-bar" id="stats-bar"></div>
+<div class="eleves-section">
+  <div class="section-label">
+    <span>Touchez ✓ pour marquer absent·e</span>
+    <button class="btn-edit-mode" id="btn-edit-mode">✏️ Modifier noms</button>
+  </div>
+  <div id="liste-eleves"></div>
+</div>
+<div class="attente-section">
+  <div class="attente-label">⏳ Liste d'attente</div>
+  <div class="attente-grid" id="attente-grid"></div>
+</div>
+<div class="notes-section">
+  <div class="notes-label">📝 Notes de séance</div>
+  <textarea class="notes-input" id="notes-input" placeholder="Méditation, pratique, relaxation…"></textarea>
+</div>
+<div class="recap-section">
+  <div class="recap-title">📊 Récapitulatif saison</div>
+  <div id="recap-content"></div>
+</div>
+<div class="bottom-bar">
+  <span class="brand-bottom">usha-yoga.fr</span>
+  <button class="btn-reset" id="btn-reset">↺ Reset</button>
+  <button class="btn-export" id="btn-export">📋 Copier</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DEFAULT_ELEVES = {
+  "lun-18": [
+    "Eulalie Pineau","Laure Pelloquin","Stéphanie Gillet","Céline Girardeau",
+    "Delphine Mercury","Célia Gauthier","Laure Maxel","Joceline Morin",
+    "Margarita Guilbert","Sandrine Faille","Elfried Ermane","Géraldine Anso",
+    "Hélène Garcia","Patricia Girardeau","",""
+  ],
+  "lun-1945": [
+    "Laura Guillermain","Carinne Soucadauch","Francis Luquet","Céline Gbarsin",
+    "Coralie Voirin","Fabienne Laplace-Toulouse","Frédérique Coup","Jean-Robert Ospital",
+    "Edwige Sicart","Cédric Rousseau","Céline Larchier","Sophie Solnicki",
+    "Pascale Luquet","Sonia Duprat","Agnès Breant",""
+  ],
+  "jeu-18": [
+    "Marie Mornet","Nadège Blanchard","Catherine Thèze","Sophie Uzic",
+    "Marco George","Muriel Pike","Marie-Françoise Beccerro","Sandrine Lacroix",
+    "Caroline Raynal","Sabine Balleau","Céline Lejeune","Hélène Anné",
+    "Frédéric Kateb","Laetitia Deydier","",""
+  ],
+  "jeu-1945": [
+    "Pome Lasserre","Séverine Albert","Isabelle Ospital","Agnès Pallet",
+    "Oriane Gauthier","Marie-Laure Gauthier","Jean-Paul Gauthier","Maureen Roche",
+    "Elodie Gaubin","Alicia Roche","","",
+    "","","",""
+  ],
+  "ven-soussans": [
+    "Ruby Rojon","Christine Malaquin","Christelle Crespy","Catherine Guyer",
+    "Nadine Cadiran","Estelle Grégoire","Laurent Bourgault","Francine Viallaeys",
+    "","","","",
+    "","","",""
+  ]
+};
+
+const COURS = [
+  { id:"lun-18", lieu:"BRUGES", jour:"Lundi", heure:"18h00", dates:[
+    "07/09/2026","14/09/2026","21/09/2026","28/09/2026","05/10/2026","12/10/2026",
+    "02/11/2026","09/11/2026","16/11/2026","23/11/2026","30/11/2026","07/12/2026","14/12/2026",
+    "04/01/2027","11/01/2027","18/01/2027","25/01/2027","01/02/2027","08/02/2027",
+    "01/03/2027","08/03/2027","15/03/2027","22/03/2027","29/03/2027","05/04/2027",
+    "26/04/2027","03/05/2027","10/05/2027","17/05/2027","24/05/2027","31/05/2027",
+    "07/06/2027","14/06/2027","21/06/2027","28/06/2027"
+  ]},
+  { id:"lun-1945", lieu:"BRUGES", jour:"Lundi", heure:"19h45", dates:[
+    "07/09/2026","14/09/2026","21/09/2026","28/09/2026","05/10/2026","12/10/2026",
+    "02/11/2026","09/11/2026","16/11/2026","23/11/2026","30/11/2026","07/12/2026","14/12/2026",
+    "04/01/2027","11/01/2027","18/01/2027","25/01/2027","01/02/2027","08/02/2027",
+    "01/03/2027","08/03/2027","15/03/2027","22/03/2027","29/03/2027","05/04/2027",
+    "26/04/2027","03/05/2027","10/05/2027","17/05/2027","24/05/2027","31/05/2027",
+    "07/06/2027","14/06/2027","21/06/2027","28/06/2027"
+  ]},
+  { id:"jeu-18", lieu:"BRUGES", jour:"Jeudi", heure:"18h00", dates:[
+    "10/09/2026","17/09/2026","24/09/2026","01/10/2026","08/10/2026","15/10/2026",
+    "05/11/2026","12/11/2026","19/11/2026","26/11/2026","03/12/2026","10/12/2026","17/12/2026",
+    "07/01/2027","14/01/2027","21/01/2027","28/01/2027","04/02/2027","11/02/2027",
+    "04/03/2027","11/03/2027","18/03/2027","25/03/2027","01/04/2027","08/04/2027",
+    "29/04/2027","06/05/2027","13/05/2027","20/05/2027","27/05/2027",
+    "03/06/2027","10/06/2027","17/06/2027","24/06/2027"
+  ]},
+  { id:"jeu-1945", lieu:"BRUGES", jour:"Jeudi", heure:"19h45", dates:[
+    "10/09/2026","17/09/2026","24/09/2026","01/10/2026","08/10/2026","15/10/2026",
+    "05/11/2026","12/11/2026","19/11/2026","26/11/2026","03/12/2026","10/12/2026","17/12/2026",
+    "07/01/2027","14/01/2027","21/01/2027","28/01/2027","04/02/2027","11/02/2027",
+    "04/03/2027","11/03/2027","18/03/2027","25/03/2027","01/04/2027","08/04/2027",
+    "29/04/2027","06/05/2027","13/05/2027","20/05/2027","27/05/2027",
+    "03/06/2027","10/06/2027","17/06/2027","24/06/2027"
+  ]},
+  { id:"ven-soussans", lieu:"SOUSSANS", jour:"Vendredi", heure:"10h15", dates:[
+    "11/09/2026","18/09/2026","25/09/2026","02/10/2026","09/10/2026","16/10/2026",
+    "06/11/2026","13/11/2026","20/11/2026","27/11/2026","04/12/2026","11/12/2026","18/12/2026",
+    "08/01/2027","15/01/2027","22/01/2027","29/01/2027","05/02/2027","12/02/2027",
+    "05/03/2027","12/03/2027","19/03/2027","26/03/2027","02/04/2027","09/04/2027",
+    "30/04/2027","07/05/2027","14/05/2027","21/05/2027","28/05/2027",
+    "04/06/2027","11/06/2027","18/06/2027","25/06/2027"
+  ]}
+];
+
+const NB_ATTENTE = 6;
+const LS = "usha_2026_2027_v1";
+
+function loadAll(){try{const r=localStorage.getItem(LS);if(r)return JSON.parse(r);}catch(e){}return{eleves:{},seances:{}};}
+function saveData(){try{localStorage.setItem(LS,JSON.stringify(STATE));}catch(e){}}
+function getEleves(id){if(!STATE.eleves[id])STATE.eleves[id]=[...DEFAULT_ELEVES[id]];return STATE.eleves[id];}
+function getSeance(id,idx){
+  const key=`${id}__${idx}`;const el=getEleves(id);
+  if(!STATE.seances[key])STATE.seances[key]={slots:el.map(()=>({absent:false,remplacant:""})),attente:Array(NB_ATTENTE).fill(""),notes:""};
+  else{while(STATE.seances[key].slots.length<el.length)STATE.seances[key].slots.push({absent:false,remplacant:""});if(!STATE.seances[key].attente)STATE.seances[key].attente=Array(NB_ATTENTE).fill("");if(STATE.seances[key].notes===undefined)STATE.seances[key].notes="";}
+  return STATE.seances[key];
+}
+
+let STATE=loadAll(),currentCours=0,currentDate=0,editMode=false;
+
+function autoSelectSeance(){
+  const cours=COURS[currentCours];
+  const today=new Date();today.setHours(0,0,0,0);
+  let found=-1;
+  cours.dates.forEach((d,i)=>{const p=d.split("/");const dt=new Date(p[2],p[1]-1,p[0]);if(found===-1&&dt>=today)found=i;});
+  currentDate=found!==-1?found:cours.dates.length-1;
+}
+
+function renderNav(){
+  const nav=document.getElementById("nav-cours");nav.innerHTML="";
+  COURS.forEach((c,i)=>{
+    const btn=document.createElement("button");
+    btn.className="btn-cours"+(i===currentCours?" active":"");
+    btn.innerHTML=`<span class="c-lieu">${c.lieu}</span><span class="c-heure">${c.jour} ${c.heure}</span>`;
+    btn.onclick=()=>{saveData();currentCours=i;editMode=false;autoSelectSeance();render();};
+    nav.appendChild(btn);
+  });
+}
+
+function renderSeanceBar(){
+  const cours=COURS[currentCours];
+  const sel=document.getElementById("seance-select");
+  sel.innerHTML=cours.dates.map((d,i)=>`<option value="${i}"${i===currentDate?" selected":""}>Séance ${i+1} — ${d}</option>`).join("");
+  document.getElementById("btn-prev").disabled=currentDate===0;
+  document.getElementById("btn-next").disabled=currentDate===cours.dates.length-1;
+}
+
+function renderStats(){
+  const cours=COURS[currentCours];const el=getEleves(cours.id);const s=getSeance(cours.id,currentDate);
+  let p=0,a=0,r=0;
+  el.forEach((n,i)=>{if(!n)return;if(s.slots[i]&&s.slots[i].absent)a++;else p++;if(s.slots[i]&&s.slots[i].remplacant.trim())r++;});
+  document.getElementById("stats-bar").innerHTML=`
+    <div class="stat-pill sp-p"><span class="sv">${p}</span><span class="sl">présent·e·s</span></div>
+    <div class="stat-pill sp-a"><span class="sv">${a}</span><span class="sl">absent·e·s</span></div>
+    <div class="stat-pill sp-t"><span class="sv">${p+r}</span><span class="sl">tapis</span></div>
+    <div class="stat-pill sp-r"><span class="sv">${r||"—"}</span><span class="sl">remplaçant·e·s</span></div>`;
+}
+
+function renderEleves(){
+  const cours=COURS[currentCours];const eleves=getEleves(cours.id);const seance=getSeance(cours.id,currentDate);
+  const liste=document.getElementById("liste-eleves");liste.innerHTML="";
+  const btnEdit=document.getElementById("btn-edit-mode");
+  btnEdit.textContent=editMode?"✓ Terminer":"✏️ Modifier noms";
+  btnEdit.className="btn-edit-mode"+(editMode?" active":"");
+
+  eleves.forEach((nom,i)=>{
+    const s=seance.slots[i]||{absent:false,remplacant:""};
+    const libre=!nom.trim();const isAbsent=!libre&&s.absent;
+    const card=document.createElement("div");
+    card.className="eleve-card"+(isAbsent?" absent-card":"")+(libre&&!editMode?" libre-card":"");
+
+    if(editMode){
+      card.innerHTML=`<div class="eleve-row"><div class="eleve-num">${i+1}</div><input type="text" class="nom-edit-input" value="${nom}" placeholder="Prénom Nom…" maxlength="40"></div>`;
+      const inp=card.querySelector(".nom-edit-input");
+      inp.addEventListener("input",()=>{eleves[i]=inp.value;STATE.eleves[cours.id]=eleves;saveData();});
+    } else {
+      card.innerHTML=`
+        <div class="eleve-row">
+          <div class="toggle-presence${isAbsent?" absent":""}${libre?" libre":""}" data-idx="${i}">${libre?"·":isAbsent?"✗":"✓"}</div>
+          <div class="eleve-num">${i+1}</div>
+          <div class="eleve-nom${libre?" placeholder":""}">${libre?"Place libre / rattrapage":nom}</div>
+        </div>
+        ${isAbsent?`<div class="remplacant-row"><span class="remplacant-label">↪ Remplaçant·e</span><input type="text" class="remplacant-input" value="${s.remplacant||""}" placeholder="Prénom…" maxlength="40"></div>`:""}
+        ${libre?`<div class="remplacant-row"><span class="remplacant-label">↪ Visiteur·se</span><input type="text" class="remplacant-input" value="${s.remplacant||""}" placeholder="Prénom…" maxlength="40"></div>`:""}`;
+      if(!libre){
+        card.querySelector(".toggle-presence").addEventListener("click",()=>{s.absent=!s.absent;if(!s.absent)s.remplacant="";saveData();renderEleves();renderStats();renderRecap();});
+      }
+      const rInput=card.querySelector(".remplacant-input");
+      if(rInput)rInput.addEventListener("input",()=>{s.remplacant=rInput.value;saveData();renderStats();});
+    }
+    liste.appendChild(card);
+  });
+
+  const notesEl=document.getElementById("notes-input");
+  notesEl.value=seance.notes||"";
+  notesEl.oninput=()=>{seance.notes=notesEl.value;saveData();};
+
+  const grid=document.getElementById("attente-grid");grid.innerHTML="";
+  for(let i=0;i<NB_ATTENTE;i++){
+    const item=document.createElement("div");item.className="attente-item";
+    item.innerHTML=`<span class="attente-num">${i+1}.</span><input type="text" class="attente-input" value="${seance.attente[i]||""}" placeholder="Nom…" maxlength="40">`;
+    const inp=item.querySelector("input");
+    inp.addEventListener("input",()=>{seance.attente[i]=inp.value;saveData();});
+    grid.appendChild(item);
+  }
+}
+
+function renderRecap(){
+  const cours=COURS[currentCours];const eleves=getEleves(cours.id);
+  let html=`<table class="recap-table"><thead><tr><th>N°</th><th>Date</th><th>P</th><th>A</th><th>Tapis</th><th>Rpl.</th></tr></thead><tbody>`;
+  cours.dates.forEach((date,i)=>{
+    const s=getSeance(cours.id,i);let p=0,a=0,r=0;
+    eleves.forEach((n,j)=>{if(!n)return;if(s.slots[j]&&s.slots[j].absent)a++;else p++;if(s.slots[j]&&s.slots[j].remplacant.trim())r++;});
+    html+=`<tr class="${i===currentDate?"cur":""}"><td>${i+1}</td><td>${date}</td><td class="r-p">${p||"·"}</td><td class="r-a">${a||"·"}</td><td class="r-t">${(p+r)||"·"}</td><td>${r||"·"}</td></tr>`;
+  });
+  html+="</tbody></table>";
+  document.getElementById("recap-content").innerHTML=html;
+}
+
+function exportResume(){
+  const cours=COURS[currentCours];const eleves=getEleves(cours.id);const seance=getSeance(cours.id,currentDate);
+  const dateStr=cours.dates[currentDate];
+  const df=new Date(dateStr.split("/").reverse().join("-")+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  let txt=`🧘 Usha Yoga — ${cours.lieu} ${cours.jour} ${cours.heure}\n📅 ${df}\n\n`;
+  const presents=[],absents=[];
+  eleves.forEach((nom,i)=>{
+    if(!nom){if(seance.slots[i]&&seance.slots[i].remplacant.trim())presents.push(seance.slots[i].remplacant+" (visiteur·se)");return;}
+    if(seance.slots[i]&&seance.slots[i].absent)absents.push({nom,rpl:seance.slots[i].remplacant});
+    else presents.push(nom);
+  });
+  txt+=`✅ Présent·e·s (${presents.length}) :\n`+(presents.map(n=>`  · ${n}`).join("\n")||"  —");
+  if(absents.length){txt+=`\n\n❌ Absent·e·s (${absents.length}) :\n`;absents.forEach(a=>{txt+=`  · ${a.nom}${a.rpl?" → remplacé·e par "+a.rpl:""}\n`;});}
+  const att=seance.attente.filter(a=>a.trim());
+  if(att.length)txt+=`\n\n⏳ Liste d'attente :\n`+att.map((a,i)=>`  ${i+1}. ${a}`).join("\n");
+  if(seance.notes.trim())txt+=`\n\n📝 ${seance.notes.trim()}`;
+  navigator.clipboard.writeText(txt).then(()=>toast("Résumé copié ! 📋")).catch(()=>toast("Copié ! 📋"));
+}
+
+function resetSeance(){
+  if(!confirm("Remettre tout le monde présent ?"))return;
+  const cours=COURS[currentCours];const eleves=getEleves(cours.id);
+  STATE.seances[`${cours.id}__${currentDate}`]={slots:eleves.map(()=>({absent:false,remplacant:""})),attente:Array(NB_ATTENTE).fill(""),notes:""};
+  saveData();render();toast("Séance réinitialisée ✓");
+}
+
+function render(){renderNav();renderSeanceBar();renderStats();renderEleves();renderRecap();}
+
+let toastT;
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2200);}
+
+document.getElementById("btn-prev").onclick=()=>{if(currentDate>0){saveData();currentDate--;render();}};
+document.getElementById("btn-next").onclick=()=>{if(currentDate<COURS[currentCours].dates.length-1){saveData();currentDate++;render();}};
+document.getElementById("seance-select").onchange=function(){saveData();currentDate=parseInt(this.value);render();};
+document.getElementById("btn-reset").onclick=resetSeance;
+document.getElementById("btn-export").onclick=exportResume;
+document.getElementById("btn-edit-mode").onclick=()=>{editMode=!editMode;renderEleves();};
+setInterval(saveData,30000);
+
+autoSelectSeance();
+render();
+</script>
+</body>
+</html>
